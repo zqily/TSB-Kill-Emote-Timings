@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Strongest Battlegrounds - Unskippable Emote Timings</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Universal Styles & Theme --- */
+        :root {
+            --dark-navy: #0F1014; /* Darker background similar to zqil.net */
+            --light-navy: #1A1B22; /* Slightly lighter surface for cards/tables */
+            --lightest-navy: #2A2C37;
+            --slate: #94a3b8; /* Lighter slate for body text */
+            --light-slate: #cbd5e1;
+            --lightest-slate: #f1f5f9; /* Brightest text for headings */
+            --teal: #00f6ff; /* Vibrant teal from zqil.net */
+            --teal-tint: rgba(0, 246, 255, 0.1);
+            --font-sans: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--dark-navy);
+            color: var(--slate);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            /* Subtle background pattern inspired by zqil.net */
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(0, 246, 255, 0.05), transparent 20%),
+                radial-gradient(circle at 85% 30%, rgba(0, 246, 255, 0.05), transparent 20%),
+                radial-gradient(circle at 70% 80%, rgba(0, 246, 255, 0.04), transparent 15%);
+            background-attachment: fixed;
+        }
+
+        /* --- Main Layout & Header --- */
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 60px 20px; /* Increased top/bottom padding */
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-size: 3.5rem; /* Larger, more impactful heading */
+            color: var(--lightest-slate);
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+        
+        h1 span {
+            color: var(--teal);
+        }
+
+        header p {
+            max-width: 650px;
+            margin: 0 auto 20px auto;
+            color: var(--light-slate);
+            font-size: 1.1rem; /* Slightly larger paragraph text */
+        }
+        
+        .hint {
+            font-size: 0.9em;
+            background-color: var(--light-navy);
+            padding: 12px 18px;
+            border-radius: 6px;
+            border-left: 3px solid var(--teal);
+            display: inline-block;
+            color: var(--slate);
+            max-width: 650px;
+        }
+
+        /* --- Controls: Search and Filter --- */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+        .search-wrapper {
+            flex-grow: 1;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            background-color: var(--light-navy);
+            border: 1px solid var(--lightest-navy);
+            color: var(--lightest-slate);
+            padding: 12px 18px;
+            border-radius: 6px;
+            font-family: var(--font-sans);
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        input[type="text"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--teal);
+            box-shadow: 0 0 0 3px var(--teal-tint);
+        }
+
+        /* --- Table Styling --- */
+        .table-container {
+            overflow-x: auto;
+            background-color: var(--light-navy);
+            border: 1px solid var(--lightest-navy);
+            border-radius: 8px;
+            padding: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 15px 20px;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        thead tr {
+            border-bottom: 2px solid var(--teal); /* Teal accent for header */
+        }
+
+        th {
+            color: var(--lightest-slate);
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+        }
+        
+        th.sortable::after {
+            content: '';
+            position: absolute;
+            right: 8px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            opacity: 0.5;
+            transition: opacity 0.2s, border-color 0.2s;
+        }
+        th.sortable:not(.sort-asc):not(.sort-desc)::after {
+             border-top: 5px solid var(--slate); /* Default arrow */
+             transform: translateY(-25%);
+        }
+        
+        th.sort-asc::after {
+            border-bottom: 5px solid var(--teal);
+            opacity: 1;
+        }
+        
+        th.sort-desc::after {
+            border-top: 5px solid var(--teal);
+            opacity: 1;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid var(--lightest-navy);
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:last-child {
+            border-bottom: none;
+        }
+        
+        tbody tr:hover {
+            background-color: var(--lightest-navy);
+        }
+
+        td {
+            color: var(--light-slate);
+        }
+        
+        td:first-child {
+            font-weight: 600;
+            color: var(--lightest-slate);
+        }
+        
+        .price-tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-weight: 600;
+            font-size: 0.85em;
+        }
+        
+        .price-free {
+            background-color: rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+        }
+
+        .price-paid {
+            background-color: rgba(241, 196, 15, 0.15);
+            color: #f1c40f;
+        }
+
+        /* --- Media Queries for Responsiveness --- */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            header p {
+                font-size: 1rem;
+            }
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Unskippable <span>Emote Timings</span></h1>
+            <p>
+                In The Strongest Battlegrounds, some "Kill Emotes" are unskippable. This table lists those emotes and their durations to help you know exactly how long you, or the person you killed, will be waiting.
+            </p>
+            <p class="hint">
+                <strong>Note:</strong> The "Uncertainty Rate" shows timing variations due to testing conditions or lag. Durations marked "N/A" were only tested once.
+            </p>
+        </header>
+
+        <div class="controls">
+            <div class="search-wrapper">
+                <input type="text" id="searchInput" placeholder="Search for an emote...">
+            </div>
+            <div class="filter-wrapper">
+                <select id="priceFilter">
+                    <option value="all">All Prices</option>
+                    <option value="Free">Free Only</option>
+                    <option value="Paid">Paid Only</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="sortable" data-column="name">Emote Name</th>
+                        <th class="sortable" data-column="duration">Duration</th>
+                        <th class="sortable" data-column="uncertainty">Uncertainty Rate</th>
+                        <th class="sortable" data-column="price">Price</th>
+                    </tr>
+                </thead>
+                <tbody id="emoteTableBody">
+                    <!-- Emote data will be injected here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        const emotesData = [
+            { name: "Boxed up", duration: "2:46", uncertainty: "N/A", price: "Free" },
+            { name: "Insect", duration: "4:25", uncertainty: "0:00", price: "Free" },
+            { name: "Ruthless", duration: "4:25", uncertainty: "N/A", price: "Free" },
+            { name: "Heart Strike", duration: "4:56", uncertainty: "±0:04", price: "Free" },
+            { name: "Ban Hammer", duration: "1:47", uncertainty: "N/A", price: "Free" },
+            { name: "Beneath Me", duration: "4:33", uncertainty: "±0:06", price: "Free" },
+            { name: "Dragon Combo", duration: "4:25", uncertainty: "0:00", price: "Free" },
+            { name: "Telekinesis", duration: "2:22", uncertainty: "±0:02", price: "Free" },
+            { name: "Weak", duration: "5:51", uncertainty: "±0:03", price: "Free" },
+            { name: "Celestial Banisher", duration: "0:55", uncertainty: "±0:01", price: "Free" },
+            { name: "Lethal Beam", duration: "4:24", uncertainty: "±0:01", price: "Free" },
+            { name: "Time Shift", duration: "6:34", uncertainty: "N/A", price: "Free" },
+            { name: "STILL FUNNY?", duration: "8:15", uncertainty: "N/A", price: "Free" },
+            { name: "Flower Bomb", duration: "4:25", uncertainty: "N/A", price: "Free" },
+            { name: "Explosive Stomps", duration: "5:55", uncertainty: "N/A", price: "Free" },
+            { name: "Wombo Combo", duration: "17:46", uncertainty: "N/A", price: "Paid" },
+            { name: "Fly High", duration: "4:27", uncertainty: "N/A", price: "Free" },
+            { name: "Energy Barrage", duration: "2:06", uncertainty: "N/A", price: "Free" }
+        ];
+
+        // --- DOM Elements ---
+        const tableBody = document.getElementById('emoteTableBody');
+        const searchInput = document.getElementById('searchInput');
+        const priceFilter = document.getElementById('priceFilter');
+        const headers = document.querySelectorAll('th.sortable');
+
+        // --- State Management ---
+        let currentSort = {
+            column: 'name',
+            direction: 'asc'
+        };
+
+        // --- Helper Functions ---
+        const durationToSeconds = (duration) => {
+            if (duration === 'N/A') return -1;
+            const parts = duration.split(':').map(Number);
+            return parts[0] * 60 + parts[1];
+        };
+        
+        // --- Core Logic ---
+        const renderTable = (data) => {
+            tableBody.innerHTML = ''; // Clear existing table
+            if (data.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="4" style="text-align: center; padding: 20px;">No emotes found.</td></tr>`;
+                return;
+            }
+
+            data.forEach(emote => {
+                const row = document.createElement('tr');
+                const priceClass = emote.price.toLowerCase() === 'free' ? 'price-free' : 'price-paid';
+                
+                row.innerHTML = `
+                    <td>${emote.name}</td>
+                    <td>${emote.duration}</td>
+                    <td>${emote.uncertainty}</td>
+                    <td><span class="price-tag ${priceClass}">${emote.price}</span></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        };
+
+        const updateDisplay = () => {
+            // 1. Filter
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedPrice = priceFilter.value;
+
+            let filteredData = emotesData.filter(emote => {
+                const nameMatch = emote.name.toLowerCase().includes(searchTerm);
+                const priceMatch = selectedPrice === 'all' || emote.price === selectedPrice;
+                return nameMatch && priceMatch;
+            });
+
+            // 2. Sort
+            filteredData.sort((a, b) => {
+                const valA = a[currentSort.column];
+                const valB = b[currentSort.column];
+                let comparison = 0;
+
+                if (currentSort.column === 'duration') {
+                    comparison = durationToSeconds(valA) - durationToSeconds(valB);
+                } else {
+                    // Default string comparison
+                    comparison = valA.localeCompare(valB);
+                }
+                
+                return currentSort.direction === 'asc' ? comparison : -comparison;
+            });
+
+            // 3. Render
+            renderTable(filteredData);
+            
+            // 4. Update Header Styles
+            headers.forEach(header => {
+                header.classList.remove('sort-asc', 'sort-desc');
+                if (header.dataset.column === currentSort.column) {
+                    header.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+                }
+            });
+        };
+
+        // --- Event Listeners ---
+        searchInput.addEventListener('input', updateDisplay);
+        priceFilter.addEventListener('change', updateDisplay);
+
+        headers.forEach(header => {
+            header.addEventListener('click', () => {
+                const column = header.dataset.column;
+                
+                if (currentSort.column === column) {
+                    // Reverse direction if same column is clicked
+                    currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                } else {
+                    // Switch to new column, default to ascending
+                    currentSort.column = column;
+                    currentSort.direction = 'asc';
+                }
+                updateDisplay();
+            });
+        });
+
+        // --- Initial Load ---
+        document.addEventListener('DOMContentLoaded', updateDisplay);
+    </script>
+</body>
+</html>
